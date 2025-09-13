@@ -5,14 +5,14 @@ Unterstützt Textextraktion aus Bildern und PDFs unter Windows 11
 """
 
 import argparse
-import asyncio
-import json
+# import asyncio
+# import json
 import sys
 import os
 import tempfile
 import subprocess
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, Optional
 
 import pytesseract
 from PIL import Image
@@ -297,13 +297,14 @@ def parse_args() -> argparse.Namespace:
     )
     return parser.parse_args()
 
-# async def main():
-    # """Hauptfunktion zum Starten des MCP-Servers"""
-    # Server über stdio starten
-    # from mcp.server.stdio import stdio_server
 
-    # async with stdio_server() as (read_stream, write_stream):
-    #    await mcp.run(read_stream, write_stream, mcp.create_initialization_options())
+# async def main():
+# """Hauptfunktion zum Starten des MCP-Servers"""
+# Server über stdio starten
+# from mcp.server.stdio import stdio_server
+
+# async with stdio_server() as (read_stream, write_stream):
+#    await mcp.run(read_stream, write_stream, mcp.create_initialization_options())
 
 
 def main() -> None:

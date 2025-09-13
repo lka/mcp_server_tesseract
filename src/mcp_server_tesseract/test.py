@@ -6,12 +6,16 @@ Tessskript für den MCP Tesseract Server
 import os
 import sys
 import asyncio
-from server import check_tesseract_languages, extract_text_from_image, \
-                   extract_text_from_pdf, set_project_dir
+from server import (
+    check_tesseract_languages,
+    extract_text_from_image,
+    extract_text_from_pdf,
+    set_project_dir,
+)
 
 
 def test_tesseract_installation():
-    set_project_dir('.')
+    set_project_dir(".")
     """Testet die Tesseract-Installation"""
     print("=== Tesseract Installation Test ===")
     result = check_tesseract_languages()

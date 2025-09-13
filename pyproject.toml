@@ -35,4 +35,3 @@ mcp_server_tesseract = ["*.py"]
 [tool.black]
 line-length = 88
 target-version = ["py311"]
-
