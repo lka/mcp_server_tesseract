@@ -1,0 +1,11 @@
+# Basis MCP-Bibliothek
+# mcp>=1.0.0
+
+# PDF-Processing
+PyMuPDF>=1.23.0
+
+# Bild-Processing  
+Pillow>=10.0.0
+
+# Alternative MCP-Implementierung falls Probleme auftreten
+# mcp-server-stdio>=0.1.0

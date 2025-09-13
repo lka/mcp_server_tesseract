@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcp-server-tesseract"
+version = "1.0.0"
+description = "MCP Server für Tesseract OCR unter Windows 11"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [
+    {name = "MCP Tesseract Server"},
+]
+dependencies = [
+    "mcp>=1.0.0",
+    "fastmcp>=0.2.0", 
+    "pytesseract>=0.3.10",
+    "Pillow>=10.0.0",
+    "PyMuPDF>=1.23.0",
+]
+
+[project.scripts]
+mcp-server-tesseract = "mcp_server_tesseract.server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# [tool.setuptools]
+# packages = ["mcp_server_tesseract"]
+
+[tool.setuptools.package-data]
+mcp_server_tesseract = ["*.py"]
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
