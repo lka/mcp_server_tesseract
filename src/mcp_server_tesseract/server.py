@@ -217,6 +217,70 @@ def extract_text_from_pdf(pdf_path: str, language: str = "deu") -> Dict[str, Any
 
 
 @mcp.tool()
+def extract_images_from_pdf(pdf_path: str) -> Dict[str, Any]:
+    """
+    Extrahiert Images aus einem PDF mittels FITZ
+
+    Args:
+        pdf_path: Pfad zur PDF-Datei
+
+    Returns:
+        Dict mit extrahierten Images und Metadaten
+    """
+    try:
+        # Überprüfe ob Datei existiert
+        if _project_dir is None:
+            raise ValueError("Project directory has not been set")
+
+        if not os.path.exists(os.path.join(_project_dir, pdf_path)):
+            return {
+                "success": False,
+                "error": f"PDF-Datei nicht gefunden: {pdf_path}",
+                "text": "",
+            }
+
+        # PDF öffnen
+        doc = fitz.open(os.path.join(_project_dir, pdf_path))
+        processed_pages = 0
+        extracted_images = []
+        basename = os.path.splitext(os.path.basename(pdf_path))[0]
+        total_pages = len(doc)
+
+        for page_num in range(total_pages):
+            # page = doc.load_page[page_num]
+
+            # get all images
+            images = doc.get_page_images(page_num, full=True)
+
+            for img_index, img in enumerate(images):
+                xref = img[0]
+                base_image = doc.extract_image(xref)
+                image_bytes = base_image["image"]
+                image_ext = base_image["ext"]
+
+                image_filename = f"{basename}_page{page_num + 1}_img{img_index + 1}.{image_ext}"
+
+                with open(os.path.join(_project_dir, image_filename), "wb") as image_file:
+                    image_file.write(image_bytes)
+                extracted_images.append(image_filename)
+
+            processed_pages += 1
+
+        doc.close()
+
+        return {
+            "success": True,
+            "extracted_images": extracted_images,
+            "pdf_path": pdf_path,
+            "total_pages": total_pages,
+            "processed_pages": processed_pages,
+        }
+
+    except Exception as e:
+        return {"success": False, "error": str(e), "text": "", "pdf_path": pdf_path}
+
+
+@mcp.tool()
 def check_tesseract_languages() -> Dict[str, Any]:
     """
     Listet alle verfügbaren Tesseract-Sprachen auf

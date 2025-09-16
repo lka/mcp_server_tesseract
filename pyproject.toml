@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mcp-server-tesseract"
-version = "1.0.0"
+version = "1.1.0"
 description = "MCP Server für Tesseract OCR unter Windows 11"
 readme = "README.md"
 requires-python = ">=3.8"

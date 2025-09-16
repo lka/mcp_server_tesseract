@@ -5,12 +5,13 @@ Tessskript für den MCP Tesseract Server
 
 import os
 import sys
-import asyncio
+# import asyncio
 from server import (
     check_tesseract_languages,
     extract_text_from_image,
     extract_text_from_pdf,
     set_project_dir,
+    extract_images_from_pdf,
 )
 
 
@@ -83,6 +84,37 @@ def test_image_ocr():
     return True
 
 
+def test_images_extract():
+    """Testet Image extraction mit einem Beispiel PDF (falls vorhanden)"""
+    print("\n=== PDF-Extraction Test ===")
+
+    # Suche nach Test PDF im aktuellen Verzeichnis
+    test_files = [
+        "test.pdf",
+        "beispiel.pdf",
+    ]
+
+    for filename in test_files:
+        if os.path.exists(filename):
+            print(f"Teste Image Extraction mit: {filename}")
+            result = extract_images_from_pdf(filename)
+
+            if result["success"]:
+                print("✓ Extraction erfolgreich!")
+                print(f"  Extrahierte Images: {len(result['extracted_images'])}")
+                print(f"  Processed Pages: {result['processed_pages']}")
+                print(f"  Seitenanzahl: {result['total_pages']}")
+                return True
+            else:
+                print(f"✗ Extraction fehlgeschlagen: {result['error']}")
+                return False
+
+    print(
+        "ℹ Kein Test PDF gefunden. Legen Sie eine PDF mit dem Namen 'test.pdf' in diesen Ordner."
+    )
+    return True
+
+
 def test_pdf_ocr():
     """Testet OCR mit einem Beispiel PDF (falls vorhanden)"""
     print("\n=== PDF-OCR Test ===")
@@ -134,6 +166,9 @@ def main():
 
     # Test 3: PDF-OCR (optional)
     test_pdf_ocr()
+
+    # Test 4: extract image(s) from PDF (optional)
+    test_images_extract()
 
     print("\n" + "=" * 50)
     print("✓ Tests abgeschlossen! Der MCP Server sollte funktionieren.")
