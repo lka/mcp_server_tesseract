@@ -137,6 +137,13 @@ def extract_text_from_image(image_path: str, language: str = "deu") -> Dict[str,
         return {"success": False, "error": str(e), "text": "", "image_path": image_path}
 
 
+def create_tmp_dir_if_needed(base_dir: str) -> str:
+    """Erstellt ein temporäres Verzeichnis, falls nötig"""
+    tmp_dir = os.path.join(base_dir, "tmp")
+    os.makedirs(tmp_dir, exist_ok=True)
+    return tmp_dir
+
+
 @mcp.tool()
 def extract_text_from_pdf(pdf_path: str, language: str = "deu") -> Dict[str, Any]:
     """
@@ -232,6 +239,8 @@ def extract_images_from_pdf(pdf_path: str) -> Dict[str, Any]:
         if _project_dir is None:
             raise ValueError("Project directory has not been set")
 
+        create_tmp_dir_if_needed(str(_project_dir))
+
         if not os.path.exists(os.path.join(_project_dir, pdf_path)):
             return {
                 "success": False,
@@ -260,9 +269,9 @@ def extract_images_from_pdf(pdf_path: str) -> Dict[str, Any]:
 
                 image_filename = f"{basename}_page{page_num + 1}_img{img_index + 1}.{image_ext}"
 
-                with open(os.path.join(_project_dir, image_filename), "wb") as image_file:
+                with open(os.path.join(_project_dir, 'tmp', image_filename), "wb") as image_file:
                     image_file.write(image_bytes)
-                extracted_images.append(image_filename)
+                extracted_images.append(os.path.join('tmp', image_filename))
 
             processed_pages += 1
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tessskript für den MCP Tesseract Server
+TestSkript für den MCP Tesseract Server
 """
 
 import os
